@@ -1,0 +1,26 @@
+{
+    "name": "dawidmazurek/php-jsonrpc-client",
+    "description": "Simple json-rpc client",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dawid Mazurek",
+            "email": "dawid@dawidmazurek.pl"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": "^7.2",
+        "php-http/httplug": "^1.1",
+        "guzzlehttp/psr7": "^1.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "DawidMazurek\\JsonRpcClient\\": "./src/"
+        }
+    }
+}

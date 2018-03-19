@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DawidMazurek\JsonRpcClient\Client;
+namespace DawidMazurek\JsonRpcClient\Response;
 
 interface JsonRpcResponse
 {

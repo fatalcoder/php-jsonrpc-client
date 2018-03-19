@@ -67,4 +67,17 @@ class JsonRpcRequestCollection
 
         throw new RequestWithoutId();
     }
+
+    public function getByRequestId(int $offset): JsonRpcRequest
+    {
+        $this->requests->rewind();
+
+        while ($this->requests->valid()) {
+            $request = $this->requests->current();
+            if ($this->requests->offsetGet($request) === $offset) {
+                return $request;
+            }
+            $this->requests->next();
+        }
+    }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace DawidMazurek\JsonRpcClient\Boundary\Http;
 
-use DawidMazurek\JsonRpcClient\Client\JsonRpcRequest;
+use DawidMazurek\JsonRpcClient\Client\JsonRpcClientConfiguration;
 use GuzzleHttp\Psr7\Request;
 
 class RequestFactory
@@ -12,11 +12,11 @@ class RequestFactory
     const HTTP_METHOD_POST = 'POST';
     const HTTP_METHOD_GET= 'GET';
     /**
-     * @var JsonRpcCLientConfiguration
+     * @var JsonRpcClientConfiguration
      */
     private $config;
 
-    public function __construct(JsonRpcCLientConfiguration $config)
+    public function __construct(JsonRpcClientConfiguration $config)
     {
         $this->config = $config;
     }
@@ -25,10 +25,5 @@ class RequestFactory
     {
         $body = json_encode($requestPayload);
         return new Request(self::HTTP_METHOD_POST, $this->config->getUri(), [], $body);
-    }
-
-    public function createGetRequest(JsonRpcRequest $jsonRpcRequest): Request
-    {
-
     }
 }

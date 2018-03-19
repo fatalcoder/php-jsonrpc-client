@@ -7,6 +7,8 @@ namespace DawidMazurek\JsonRpcClient\Client;
 use DawidMazurek\JsonRpcClient\Boundary\Http\RequestFactory;
 use DawidMazurek\JsonRpcClient\Exception\RequestWithoutId;
 use DawidMazurek\JsonRpcClient\Request\JsonRpcRequestCollection;
+use DawidMazurek\JsonRpcClient\Response\JsonRpcRequestResponse;
+use DawidMazurek\JsonRpcClient\Response\JsonRpcResponseCollection;
 use Http\Client\HttpClient;
 
 class JsonRpcClient
@@ -28,7 +30,7 @@ class JsonRpcClient
         $this->requestFactory = $requestFactory;
     }
 
-    public function execute(JsonRpcRequestCollection $requests): JsonRpcResponse
+    public function execute(JsonRpcRequestCollection $requests): JsonRpcResponseCollection
     {
         $requestPayload = [];
 
@@ -53,8 +55,24 @@ class JsonRpcClient
             $requestPayload = reset($requestPayload);
         }
 
-        $this->httpClient->sendRequest(
+        $response = $this->httpClient->sendRequest(
             $this->requestFactory->createPostRequest($requestPayload)
         );
+
+        $parsedResponse = json_decode(((string)$response->getBody()->getContents()), true);
+
+        if (array_key_exists('jsonrpc', $parsedResponse)) {
+            $parsedResponse = [$parsedResponse];
+        }
+
+        $responses = new JsonRpcResponseCollection($requests);
+
+        foreach ($parsedResponse as $singleResponse) {
+            $responses->addResponse(
+                new JsonRpcRequestResponse($singleResponse)
+            );
+        }
+
+        return $responses;
     }
 }

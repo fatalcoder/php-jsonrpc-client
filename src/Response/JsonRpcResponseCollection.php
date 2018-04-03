@@ -25,14 +25,20 @@ class JsonRpcResponseCollection
         $this->responses = [];
     }
 
-    public function addResponse(JsonRpcRequestResponse $response)
+    public function addResponse(JsonRpcResponse $response)
     {
         $this->responses[$response->getId()] = $response;
     }
 
-    public function getResponseFor(JsonRpcRequest $request): JsonRpcRequestResponse
+    public function getResponseFor(JsonRpcRequest $request): JsonRpcResponse
     {
         $offset = $this->requests->getRequestId($request);
         return $this->responses[$offset];
+    }
+
+    public function hasRequestFailed(JsonRpcRequest $request): bool
+    {
+        $offset = $this->requests->getRequestId($request);
+        return $this->responses[$offset] instanceof JsonRpcRequestError;
     }
 }

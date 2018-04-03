@@ -7,7 +7,9 @@ namespace DawidMazurek\JsonRpcClient\Client;
 use DawidMazurek\JsonRpcClient\Boundary\Http\RequestFactory;
 use DawidMazurek\JsonRpcClient\Exception\RequestWithoutId;
 use DawidMazurek\JsonRpcClient\Request\JsonRpcRequestCollection;
+use DawidMazurek\JsonRpcClient\Response\JsonRpcRequestError;
 use DawidMazurek\JsonRpcClient\Response\JsonRpcRequestResponse;
+use DawidMazurek\JsonRpcClient\Response\JsonRpcResponse;
 use DawidMazurek\JsonRpcClient\Response\JsonRpcResponseCollection;
 use Http\Client\HttpClient;
 
@@ -69,10 +71,19 @@ class JsonRpcClient
 
         foreach ($parsedResponse as $singleResponse) {
             $responses->addResponse(
-                new JsonRpcRequestResponse($singleResponse)
+                $this->createResultObject($singleResponse)
             );
         }
 
         return $responses;
+    }
+
+    private function createResultObject(array $responseData): JsonRpcResponse
+    {
+        if (array_key_exists('result', $responseData)) {
+            return new JsonRpcRequestResponse($responseData);
+        }
+
+        return new JsonRpcRequestError($responseData);
     }
 }

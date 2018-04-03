@@ -6,5 +6,5 @@ namespace DawidMazurek\JsonRpcClient\Response;
 
 interface JsonRpcResponse
 {
-
+    public function getId(): string;
 }

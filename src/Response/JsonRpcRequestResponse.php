@@ -11,11 +11,11 @@ class JsonRpcRequestResponse implements JsonRpcResponse
 
     public function __construct(array $response)
     {
-        $this->id = $response['id'];
+        $this->id = (string)$response['id'];
         $this->result = $response['result'];
     }
 
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }

@@ -26,12 +26,16 @@ $client = new JsonRpcClient(
 );
 
 $sampleRequest = new JsonRpcRequest('sampleMethod', ['param' => 'value']);
+$sampleRequest2 = new JsonRpcRequest('sampleMetahod', ['param' => 'value']);
 $sampleNotification= new JsonRpcNotification('methodName', ['param' => 'value']);
 $requests = new JsonRpcRequestCollection();
 $requests->addRequest($sampleRequest);
+$requests->addRequest($sampleRequest2);
 $requests->addRequest($sampleNotification);
 
 $bulkResponse = $client->execute($requests);
 $sampleResponse = $bulkResponse->getResponseFor($sampleRequest);
+$sampleResponse2 = $bulkResponse->getResponseFor($sampleRequest2);
 
 var_dump($sampleResponse);
+var_dump($sampleResponse2);

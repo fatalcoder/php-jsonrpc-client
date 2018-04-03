@@ -6,18 +6,18 @@ namespace DawidMazurek\JsonRpcClient\Response;
 
 class JsonRpcRequestResponse implements JsonRpcResponse
 {
-    private $id;
+    private $requestId = '';
     private $result;
 
     public function __construct(array $response)
     {
-        $this->id = (string)$response['id'];
+        $this->requestId = (string)$response['id'];
         $this->result = $response['result'];
     }
 
     public function getId(): string
     {
-        return $this->id;
+        return $this->requestId;
     }
 
     public function getResult()

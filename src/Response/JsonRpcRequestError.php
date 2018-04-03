@@ -6,20 +6,20 @@ namespace DawidMazurek\JsonRpcClient\Response;
 
 class JsonRpcRequestError implements JsonRpcResponse
 {
-    private $id = '';
+    private $requestId = '';
     private $errorCode = 0;
     private $errorMessage = '';
 
     public function __construct(array $response)
     {
-        $this->id = (string)$response['id'];
+        $this->requestId = (string)$response['id'];
         $this->errorCode = $response['error']['code'];
         $this->errorMessage = $response['error']['message'];
     }
 
     public function getId(): string
     {
-        return $this->id;
+        return $this->requestId;
     }
 
     public function getErrorCode(): int

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DawidMazurek\JsonRpcClient\Request;
 
+use DawidMazurek\JsonRpcClient\Exception\NoRequestWithGivenId;
 use DawidMazurek\JsonRpcClient\Exception\RequestWithoutId;
 
 class JsonRpcRequestCollection
@@ -26,9 +27,11 @@ class JsonRpcRequestCollection
 
     public function addRequest(JsonRpcRequestInterface $request)
     {
-        $this->requests->attach($request);
-        if ($request instanceof JsonRpcRequest) {
-            $this->requests->offsetSet($request, ++$this->requestId);
+        if (!$this->requests->contains($request)) {
+            $this->requests->attach($request);
+            if ($request instanceof JsonRpcRequest) {
+                $this->requests->offsetSet($request, ++$this->requestId);
+            }
         }
     }
 
@@ -61,7 +64,8 @@ class JsonRpcRequestCollection
      */
     public function getRequestId(JsonRpcRequestInterface $request): int
     {
-        if ($this->requests->offsetExists($request)) {
+        if ($this->requests->offsetExists($request)
+            && !is_null($this->requests->offsetGet($request))) {
             return $this->requests->offsetGet($request);
         }
 
@@ -79,5 +83,7 @@ class JsonRpcRequestCollection
             }
             $this->requests->next();
         }
+
+        throw new NoRequestWithGivenId('No request with id ' . $offset);
     }
 }

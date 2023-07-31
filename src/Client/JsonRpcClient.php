@@ -11,12 +11,12 @@ use DawidMazurek\JsonRpcClient\Response\JsonRpcRequestError;
 use DawidMazurek\JsonRpcClient\Response\JsonRpcRequestResponse;
 use DawidMazurek\JsonRpcClient\Response\JsonRpcResponse;
 use DawidMazurek\JsonRpcClient\Response\JsonRpcResponseCollection;
-use Http\Client\HttpClient;
+use GuzzleHttp\ClientInterface;
 
 class JsonRpcClient
 {
     /**
-     * @var HttpClient
+     * @var ClientInterface
      */
     private $httpClient;
     /**
@@ -25,9 +25,10 @@ class JsonRpcClient
     private $requestFactory;
 
     public function __construct(
-        HttpClient $httpClient,
-        RequestFactory $requestFactory
-    ){
+        ClientInterface $httpClient,
+        RequestFactory  $requestFactory
+    )
+    {
         $this->httpClient = $httpClient;
         $this->requestFactory = $requestFactory;
     }
@@ -39,18 +40,18 @@ class JsonRpcClient
         foreach ($requests->getAllRequests() as $request) {
             $payload = [
                 'jsonrpc' => '2.0',
-                'method' =>  $request->getMethodName(),
+                'method' => $request->getMethodName(),
                 'params' => $request->getParams()
             ];
 
             if ($requests->requestHasId($request)) {
                 try {
                     $payload['id'] = $requests->getRequestId($request);
-                } catch(RequestWithoutId $exception) {
+                } catch (RequestWithoutId $exception) {
                 }
             }
 
-            $requestPayload []= $payload;
+            $requestPayload [] = $payload;
         }
 
         if (count($requestPayload) === 1) {

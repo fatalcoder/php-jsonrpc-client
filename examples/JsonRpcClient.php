@@ -10,7 +10,7 @@ use DawidMazurek\JsonRpcClient\Client\JsonRpcClientConfiguration;
 use DawidMazurek\JsonRpcClient\Request\JsonRpcNotification;
 use DawidMazurek\JsonRpcClient\Request\JsonRpcRequest;
 use DawidMazurek\JsonRpcClient\Request\JsonRpcRequestCollection;
-use Http\Adapter\Guzzle6\Client;
+use Http\Adapter\Guzzle7\Client;
 
 $config = [
     'uri' => 'http://localhost:8182/examples/postInput.php'

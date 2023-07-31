@@ -11,12 +11,12 @@ use DawidMazurek\JsonRpcClient\Response\JsonRpcRequestError;
 use DawidMazurek\JsonRpcClient\Response\JsonRpcRequestResponse;
 use DawidMazurek\JsonRpcClient\Response\JsonRpcResponse;
 use DawidMazurek\JsonRpcClient\Response\JsonRpcResponseCollection;
-use Http\Client\HttpClient;
+use Psr\Http\Client\ClientInterface;
 
 class JsonRpcClient
 {
     /**
-     * @var HttpClient
+     * @var ClientInterface
      */
     private $httpClient;
     /**
@@ -25,7 +25,7 @@ class JsonRpcClient
     private $requestFactory;
 
     public function __construct(
-        HttpClient $httpClient,
+        ClientInterface $httpClient,
         RequestFactory $requestFactory
     ){
         $this->httpClient = $httpClient;

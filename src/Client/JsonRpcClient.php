@@ -39,18 +39,18 @@ class JsonRpcClient
         foreach ($requests->getAllRequests() as $request) {
             $payload = [
                 'jsonrpc' => '2.0',
-                'method' =>  $request->getMethodName(),
+                'method' => $request->getMethodName(),
                 'params' => $request->getParams()
             ];
 
             if ($requests->requestHasId($request)) {
                 try {
                     $payload['id'] = $requests->getRequestId($request);
-                } catch(RequestWithoutId $exception) {
+                } catch (RequestWithoutId $exception) {
                 }
             }
 
-            $requestPayload []= $payload;
+            $requestPayload [] = $payload;
         }
 
         if (count($requestPayload) === 1) {

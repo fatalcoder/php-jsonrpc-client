@@ -11,7 +11,7 @@ use DawidMazurek\JsonRpcClient\Response\JsonRpcRequestError;
 use DawidMazurek\JsonRpcClient\Response\JsonRpcRequestResponse;
 use DawidMazurek\JsonRpcClient\Response\JsonRpcResponse;
 use DawidMazurek\JsonRpcClient\Response\JsonRpcResponseCollection;
-use GuzzleHttp\ClientInterface;
+use Psr\Http\Client\ClientInterface;
 
 class JsonRpcClient
 {
@@ -26,9 +26,8 @@ class JsonRpcClient
 
     public function __construct(
         ClientInterface $httpClient,
-        RequestFactory  $requestFactory
-    )
-    {
+        RequestFactory $requestFactory
+    ){
         $this->httpClient = $httpClient;
         $this->requestFactory = $requestFactory;
     }
